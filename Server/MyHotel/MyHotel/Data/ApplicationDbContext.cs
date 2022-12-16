@@ -12,6 +12,24 @@ namespace MyHotel.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<Invoice>()
+            .HasOne(m => m.Payment)
+            .WithMany(m => m.PaymentInvoice)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Invoice>()
+            .HasOne(m => m.Booking)
+            .WithMany(m => m.BookingInvoice)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        }
+
+
+
+
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
@@ -19,6 +37,9 @@ namespace MyHotel.Data
 
         public DbSet<Feedback> Feedbacks { get; set; }
 
+        public DbSet<Invoice> Invoices { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
 
     }
 }

@@ -2,8 +2,7 @@
 
 namespace MyHotel.Models
 {
-
-    public class Booking
+    public class Payment
     {
         public int Id { get; set; }
 
@@ -14,14 +13,14 @@ namespace MyHotel.Models
         public Room Rooms { get; set; }
         [ForeignKey(nameof(Rooms))]
         public int RoomId { get; set; }
+        public int Amount { get; set; }
+        public string CardHolder { get; set; }
+        public CardType CardType { get; set; }
+        public string CardNumber { get; set; }
 
-        public DateTime CheckIn { get; set; }
+        public string ExpiryDate { get; set; }
+        public string CVV { get; set; }
 
-        public DateTime CheckOut { get; set; }
-
-        public Guests Guest { get; set; }
-        public NoRooms  NoRoom { get; set; }
-
-        public IEnumerable<Invoice> BookingInvoice { get; set; }
+        public IEnumerable<Invoice> PaymentInvoice { get; set; }
     }
 }

@@ -1,20 +1,6 @@
 ﻿namespace MyHotel.Models
 {
-    public enum Type
-    {
-        Presidetial_Suite,
-        Superior_Room,
-        Premier_Room,
-        Delux_Suite
-        
-    }
-    public enum Btype
-    {
-        Single,
-        Duoble,
-        King_Size,
-        Queen_Size
-    }
+
     public class Room
     {
         public int Id { get; set; }
@@ -25,5 +11,7 @@
 
         public int RoomCount { get; set; } 
         public string RoomRate { get; set;}
+
+        //public IEnumerable<Invoice> InvoiceDetails { get; set; }
     }
 }
