@@ -14,16 +14,51 @@ namespace MyHotel.Controllers
 
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+                private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
 
 
         public AccountsController(
             ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this.db = context;
             this.userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
+
+
+
+
+        //[HttpGet]
+        //public IActionResult Login()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Login(LoginRequestModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return View(model);
+
+        //    var user = await userManager.FindByEmailAsync(model.Email);
+        //    if (user == null)
+        //    {
+        //        ModelState.AddModelError("", "Invalid details");
+        //        return View(model);
+        //    }
+
+        //    var res = await S.PasswordSignInAsync(user, model.Password, true, true);
+
+        //    if (res.Succeeded)
+
+        //    return View(model);
+        //}
 
 
 
@@ -37,17 +72,21 @@ namespace MyHotel.Controllers
                 Email = model.Email,
                 UserName = new Guid().ToString().Replace("-",""),
                 PhoneNumber = model.PhoneNumber,
-                Aadhar= model.Aadhar
-                
+                Aadhar= model.Aadhar,
+                Age = model.Age,
             };
-            var res = await userManager.CreateAsync(user);
+            var res = await userManager.CreateAsync(user, model.Password);
             if (!res.Succeeded)
                return BadRequest(res);
 
             await db.SaveChangesAsync();
             return Ok(user);
-            return Ok(model);
         }
+
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //}
     }
 }
 
