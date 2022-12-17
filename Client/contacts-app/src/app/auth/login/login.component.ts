@@ -2,6 +2,7 @@ import { AuthService } from './../services/auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import jwt_decode from "jwt-decode";
 
 @Component({
 	selector: 'app-login',
@@ -17,7 +18,15 @@ export class LoginComponent {
 			next: (res:any) => {
 				if(res.success){
 					localStorage.setItem('token', res.data);
-					this.router.navigate(["user"]);
+					var decodedToken:any = jwt_decode(res.data);
+                    switch(decodedToken.Role){
+                     case "Admin":
+                      this.router.navigate(["/admin"]);
+                      break;
+                     case "User":
+                      this.router.navigate(["/user"]);
+                      break;
+                    }
 				}
 			},
 			error: (err:any) => {

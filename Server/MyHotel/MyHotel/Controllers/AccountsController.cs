@@ -60,7 +60,7 @@ namespace MyHotel.Controllers
                 });
             }
 
-            var token = GenerateToken(user);
+            var token = await GenerateToken(user);
 
             return Ok(new ResponseModel<string>
             {
@@ -129,7 +129,7 @@ namespace MyHotel.Controllers
         //}
 
         
-        private string GenerateToken(ApplicationUser user)
+        private async Task<string> GenerateToken(ApplicationUser user)
         {
             var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -137,12 +137,14 @@ namespace MyHotel.Controllers
             var audience = configuration["Jwt:Audience"];
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var userRoles = await userManager.GetRolesAsync(user);
+            var role = userRoles.FirstOrDefault();
             var claims = new Claim[]
             {
                   new(ClaimTypes.NameIdentifier, user.UserName),
                   new(ClaimTypes.Email, user.Email),
                   new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                  new(ClaimTypes.Role, "User")
+                  new("Role", role)
             };
 
             var token = new JwtSecurityToken(
@@ -154,6 +156,30 @@ namespace MyHotel.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GenerateData()
+        {
+            await _roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
+            await _roleManager.CreateAsync(new IdentityRole() { Name = "User" });
+
+
+
+
+            var users = await userManager.GetUsersInRoleAsync("Admin");
+            if (users.Count == 0)
+            {
+                var appUser = new ApplicationUser()
+                {
+                    FirstName = "Admin",
+                    LastName = "User",
+                    Email = "admin@admin.com",
+                    UserName = "admin",
+                };
+                var res = await userManager.CreateAsync(appUser, "Pass@123");
+                await userManager.AddToRoleAsync(appUser, "Admin");
+            }
+            return Ok("Data generated");
+        }
 
     }
 }

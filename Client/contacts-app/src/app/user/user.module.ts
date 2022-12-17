@@ -9,6 +9,8 @@ import { UserLayoutComponent } from './user-layout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ContactComponent } from './shared/contact/contact.component';
+import { BookingComponent } from './booking/booking.component';
+
 
 
 @NgModule({
@@ -17,6 +19,7 @@ import { ContactComponent } from './shared/contact/contact.component';
     UserLayoutComponent,
     NavbarComponent,
     ContactComponent,
+    BookingComponent,
   ],
   imports: [
     CommonModule,

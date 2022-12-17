@@ -15,9 +15,11 @@ import { AppComponent } from './app.component';
 import JwtHelper from './helpers/jwtHelper';
 import { JwtInterceptor } from './helpers/interceptors/jwtInterceptor';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -37,14 +39,17 @@ import { JwtInterceptor } from './helpers/interceptors/jwtInterceptor';
       {
         path: 'user', loadChildren: () => import('./user/user-routing.module').then(m => m.UserRoutingModule), canActivate: [AuthGuard]
       },
+      {
+        path: 'admin', loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule), canActivate: [AuthGuard]
+      },
     ]),
   ],
   providers: [
     // JwtHelper,
     {
-      provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true 
+      provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
     },
-    { 
+    {
       provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true
     }
   ],
