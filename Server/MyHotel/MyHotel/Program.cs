@@ -35,7 +35,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
 
 var app = builder.Build();
 
-
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+    options.AllowAnyOrigin();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
