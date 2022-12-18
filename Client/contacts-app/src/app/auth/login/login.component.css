@@ -1,0 +1,37 @@
+.formcenter{
+ width: 360px;
+ margin-left: 139px;
+}
+
+.dont{
+ size: a5;
+    width: 154px;
+    margin-top: 10px;
+}
+
+.backbody{
+ background-image: src("https://unsplash.com/photos/n_IKQDCyrG0");
+ background-color: black;
+ height: 1000px;
+
+}
+
+.labelt
+{
+ color: azure;
+}
+
+.btncls
+{
+ background-color: slategrey;
+ width: 360px;
+ margin-top: 8px;
+ border-radius: 6px;
+ height: 39px;
+ color: black;
+
+}
+
+
+
+
